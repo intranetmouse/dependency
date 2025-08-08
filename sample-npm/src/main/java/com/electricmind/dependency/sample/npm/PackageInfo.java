@@ -10,7 +10,9 @@ public class PackageInfo {
 	
 	String name;
 	String version;
+	String license;
 	Map<String, String> dependencies;
+	Map<String, String> devDependencies;
 
 	public String getVersion() {
 		return this.version;
@@ -34,5 +36,21 @@ public class PackageInfo {
 
 	public void setDependencies(Map<String, String> dependencies) {
 		this.dependencies = dependencies;
+	}
+
+	public String getLicense() {
+		return this.license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
+	}
+
+	public Map<String, String> getDevDependencies() {
+		return this.devDependencies == null ? Collections.emptyMap() : this.devDependencies;
+	}
+
+	public void setDevDependencies(Map<String, String> devDependencies) {
+		this.devDependencies = devDependencies;
 	}
 }
