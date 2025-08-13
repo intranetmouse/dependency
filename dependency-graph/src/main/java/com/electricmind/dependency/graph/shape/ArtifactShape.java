@@ -41,7 +41,7 @@ public class ArtifactShape<T> extends NodeShape<T> {
 	}
 	
 	@Override
-	protected void drawSvg(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
+	protected void drawSvgContent(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
 		super.drawSvg(node, upperLeft, outputStream);
 		
 		String packaging = "artifact";

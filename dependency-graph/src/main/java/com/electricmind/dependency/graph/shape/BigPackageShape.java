@@ -37,7 +37,7 @@ public class BigPackageShape<T> extends PackageShape<T> {
 	}
 
 	@Override
-	protected void drawSvg(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
+	protected void drawSvgContent(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
 		double x = (getWidth() - getPackageImage().getIconWidth()) / 2.0;
 		
 		outputStream.write(("<image x=\"" + (upperLeft.getX() + x) + "\" y=\"" + upperLeft.getY() 

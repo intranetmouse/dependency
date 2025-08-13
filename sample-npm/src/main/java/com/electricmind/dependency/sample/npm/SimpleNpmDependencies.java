@@ -129,6 +129,7 @@ public class SimpleNpmDependencies {
 		grapher.getPlot().setUseWeights(false);
 		ArtifactShape<NpmPackageName> shape = new ArtifactShape<>();
 		shape.setLabelStrategy(new NpmPackageLabelStrategy());
+		shape.setLinkProvider(new NpmLinkProvider());
 		shape.setStereotypeShapeProvider(new ArtifactNpmStereotypeShapeProvider());
 		grapher.setShape(shape);
 		try (OutputStream output = new FileOutputStream("./target/npmArtifactGraph.svg")) {

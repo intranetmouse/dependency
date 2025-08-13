@@ -11,7 +11,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import com.electricmind.dependency.Node;
 
@@ -30,6 +34,7 @@ public class NodeShape<T> {
 	private Font font;
 	protected TextLabel label;
 	protected TextLabelStrategy labelStrategy = new TextLabelStrategy();
+	protected LinkProvider linkProvider;
 
 	public NodeShape() {
 		this(new Dimension(100, 50));
@@ -55,22 +60,47 @@ public class NodeShape<T> {
 
 	protected void drawSvg(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
 		
+		String link = getXLink(node);
+		
+		outputStream.write(("<g>").getBytes("UTF-8"));
+		if (StringUtils.isNotEmpty(link)) {
+			outputStream.write(("<a " + link + ">").getBytes("UTF-8"));
+			
+		}
+		drawSvgContent(node, upperLeft, outputStream);
+		if (StringUtils.isNotEmpty(link)) {
+			outputStream.write(("</a>").getBytes("UTF-8"));
+		}
+		outputStream.write("</g>".getBytes("UTF-8"));
+	}
+
+	protected void drawSvgContent(Node<T> node, Point2D upperLeft, OutputStream outputStream)
+			throws IOException, UnsupportedEncodingException {
 		Color shadowColor = getPlot().getShadowColor();
 		String shadowFill = ColorUtil.asHtml(shadowColor);
 		float shadowOpacity = ColorUtil.asOpacity(shadowColor);
 		
 		String shapeFill = ColorUtil.asHtml(getPlot().getShapeFillColorProvider().getColor(node));
 		String shapeStroke = ColorUtil.asHtml(getPlot().getShapeLineColor());
-		
 		outputStream.write(("<rect x=\"" + (upperLeft.getX() + 3) + "\" y=\"" + (upperLeft.getY() + 3) + "\" height=\"" 
 				+ this.dimension.getHeight() + "\" width=\"" + this.dimension.getWidth() + "\" fill=\"" + shadowFill + "\" fill-opacity=\"" 
-				+ shadowOpacity + "\" />").getBytes("UTF-8"));
+				+ shadowOpacity + "\" "  + " />").getBytes("UTF-8"));
 		
 		outputStream.write(("<rect x=\"" + (upperLeft.getX()) + "\" y=\"" + (upperLeft.getY()) + "\" height=\"" 
 				+ this.dimension.getHeight() + "\" width=\"" + this.dimension.getWidth() + "\" fill=\"" 
-				+ shapeFill + "\" stroke=\"" + shapeStroke + "\" stroke-width=\"1\"  />").getBytes("UTF-8"));
+				+ shapeFill + "\" stroke=\"" + shapeStroke + "\" stroke-width=\"1\" " + " />").getBytes("UTF-8"));
 
 		this.labelStrategy.populate(node, this.label, upperLeft, outputStream);
+	}
+
+	protected String getXLink(Node<T> node) {
+		String link = this.linkProvider == null ? null : this.linkProvider.getLinkForNode(node);
+		if (StringUtils.isEmpty(link)) {
+			link = "";
+		} else {
+			link = " xlink:href=\"" + StringEscapeUtils.escapeXml11(link) + "\" ";
+		}
+		return link;
 	}
 	
 	protected void draw(Graphics2D graphics, Node<T> node) {
@@ -181,5 +211,13 @@ public class NodeShape<T> {
 
 	public void setLabelStrategy(TextLabelStrategy labelStrategy) {
 		this.labelStrategy = labelStrategy;
+	}
+
+	public LinkProvider getLinkProvider() {
+		return this.linkProvider;
+	}
+
+	public void setLinkProvider(LinkProvider linkProvider) {
+		this.linkProvider = linkProvider;
 	}
 }

@@ -55,7 +55,7 @@ public class PackageShape<T> extends NodeShape<T> {
 		drawNodeName(graphics, node);
 	}
 	
-	protected void drawSvg(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
+	protected void drawSvgContent(Node<T> node, Point2D upperLeft, OutputStream outputStream) throws IOException {
 		
 		String shadowFill = ColorUtil.asHtml(getPlot().getShadowColor());
 		String shapeFill = ColorUtil.asHtml(getPlot().getShapeFillColorProvider().getColor(node));

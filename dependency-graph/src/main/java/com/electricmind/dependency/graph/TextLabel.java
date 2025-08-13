@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class TextLabel {
 
@@ -54,7 +54,7 @@ public class TextLabel {
 		output.write(("<text x=\"" + x + "\" y=\"" + y + "\" text-anchor=\"middle\" font-size=\"" 
 				+ size +"\" font-family=\"" + fontName + "\" " 
 				+ fontWeight + " dominant-baseline=\"middle\">" 
-				+ StringEscapeUtils.escapeXml(text) 
+				+ StringEscapeUtils.escapeXml11(text) 
 				+ "</text>").getBytes("UTF-8"));
 	}
 	
