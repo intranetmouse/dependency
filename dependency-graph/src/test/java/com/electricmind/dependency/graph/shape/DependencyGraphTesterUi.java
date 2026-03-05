@@ -46,6 +46,9 @@ public class DependencyGraphTesterUi extends JFrame {
 		selectionModel.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting()) {
+					return;
+				}
 				int selIdx = selectionModel.getMinSelectionIndex();
 				@SuppressWarnings("unchecked")
 				DependencyGraphTester<String> item = selIdx >= 0 ?
@@ -73,19 +76,21 @@ public class DependencyGraphTesterUi extends JFrame {
 			tester = value;
 			manager = tester == null ? null : tester.createManager();
 			grapher = tester == null ? null : tester.createGrapher(manager);
-			grapher.initialize();
-			setSize(grapher.getShape().getDimension());
-
-			repaint();
+			if (grapher != null) {
+				grapher.initialize();
+				setSize(grapher.getShape().getDimension());
+			} else {
+				repaint();
+			}
 		}
 
 		@Override
 		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
 			if (grapher == null) {
-				super.paintComponent(g);
 				return;
 			}
-			super.paintComponent(g);
 
 			grapher.draw((Graphics2D)g, getBounds());
 		}
