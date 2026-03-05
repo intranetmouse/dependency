@@ -80,8 +80,7 @@ public class DependencyGraphTesterUi extends JFrame {
 		}
 
 		@Override
-		protected void paintComponent(Graphics g)
-		{
+		protected void paintComponent(Graphics g) {
 			if (grapher == null) {
 				super.paintComponent(g);
 				return;
@@ -92,8 +91,7 @@ public class DependencyGraphTesterUi extends JFrame {
 		}
 	}
 
-	private DependencyGraphTester<?>[] createTesters()
-	{
+	private DependencyGraphTester<?>[] createTesters() {
 		List<DependencyGraphTester<?>> testers = new ArrayList<>();
 		testers.add(new SimpleArtifactGraph());
 		testers.add(new SimplePackageGraph());

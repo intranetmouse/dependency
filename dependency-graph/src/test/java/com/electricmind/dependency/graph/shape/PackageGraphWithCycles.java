@@ -12,8 +12,7 @@ public class PackageGraphWithCycles extends DependencyGraphTester<String> {
 	}
 
 	@Override
-	public Grapher<String> createGrapher(DependencyManager<String> manager)
-	{
+	public Grapher<String> createGrapher(DependencyManager<String> manager) {
 		Grapher<String> grapher = new Grapher<String>(manager);
 		grapher.setShape(new PackageShape<String>());
 		return grapher;

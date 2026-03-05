@@ -10,8 +10,7 @@ public class PackageGraphWithCrossings extends DependencyGraphTester<String> {
 	}
 
 	@Override
-	public Grapher<String> createGrapher(DependencyManager<String> manager)
-	{
+	public Grapher<String> createGrapher(DependencyManager<String> manager) {
 		Grapher<String> grapher = new Grapher<String>(manager);
 		grapher.setShape(new BigPackageShape<String>());
 		return grapher;
